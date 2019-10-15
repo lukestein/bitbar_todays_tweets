@@ -5,7 +5,7 @@
 # <bitbar.author>Luke C.D. Stein</bitbar.author>
 # <bitbar.author.github>lukestein</bitbar.author.github>
 # <bitbar.desc>Display the tweets you've posted today.</bitbar.desc>
-# <bitbar.image>http://www.hosted-somewhere/pluginimage</bitbar.image>
+# <bitbar.image>https://raw.githubusercontent.com/lukestein/bitbar_todays_tweets/master/todays_tweets.png</bitbar.image>
 # <bitbar.dependencies>python3</bitbar.dependencies>
 # <bitbar.abouturl>https://github.com/lukestein/bitbar_todays_tweets</bitbar.abouturl>
 
