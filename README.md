@@ -1,2 +1,4 @@
 # bitbar_todays_tweets
-BitBar plugin to show today's tweets in Mac menubar
+[BitBar](https://getbitbar.com/) plugin to show today's tweets in Mac menubar.
+
+![Screenshot](todays_tweets.png)
