@@ -1,4 +1,4 @@
-#!/usr/bin/env PYTHONIOENCODING=UTF-8 /Users/lstein2/anaconda3/bin/python3
+#!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
 # <bitbar.title>Today's Tweets</bitbar.title>
 # <bitbar.version>v1.0</bitbar.version>
