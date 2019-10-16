@@ -1,7 +1,7 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
 # <bitbar.title>Today's Tweets</bitbar.title>
-# <bitbar.version>v1.0</bitbar.version>
+# <bitbar.version>v1.1</bitbar.version>
 # <bitbar.author>Luke C.D. Stein</bitbar.author>
 # <bitbar.author.github>lukestein</bitbar.author.github>
 # <bitbar.desc>Display the tweets you've posted today.</bitbar.desc>
@@ -51,56 +51,46 @@ api = tweepy.API(auth)
 screen_name = api.me().screen_name
 #print("User @%s successfully authorized the app." % screen_name)
 
-#print(api.me().followers_count)
-#print(api.me().friends_count)
-
 
 # %% Get timeline
-
 tweets = []
 
 for i in tweepy.Cursor(api.user_timeline).items():
-    # process status here
     if ((i.created_at.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None).month == datetime.datetime.now().month) and
         (i.created_at.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None).day   == datetime.datetime.now().day)):
         tweets.append(i)
-        #print(i.text)
     else:
         break
 
-#timeline = api.user_timeline()
-#tweets = [i for i in timeline if (i.created_at.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None).month == datetime.datetime.now().month) and
-#                                 (i.created_at.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None).day   == datetime.datetime.now().day)]
+tweetcount   = sum(1 for t in tweets if not t.retweeted and not is_reply(t))
+retweetcount = sum(1 for t in tweets if     t.retweeted)
+replycount   = sum(1 for t in tweets if not t.retweeted and     is_reply(t))
 
+
+# %% Format menu items, including colors if above daily tweet quota
+prefix = ""
+total_color   = "color=red" if (tweetcount + retweetcount >= 10) else ""
+tweet_color   = "color=red" if (tweetcount >= 10)                else ""
+retweet_color = "color=red" if (retweetcount >= 5)               else ""
+reply_color   = "color=red" if (replycount >= 10)                else ""
 
 # %% Print counts
-prefix = ""
-#prefix = "≥" if len(tweets) == 20 else ""
-
-print(prefix + "%d+%d+%d (💕%d) | templateImage=%s" % (
-  sum(1 for t in tweets if not t.retweeted and not is_reply(t)),
-  sum(1 for t in tweets if     t.retweeted),
-  sum(1 for t in tweets if not t.retweeted and     is_reply(t)),
-  sum(t.favorite_count for t in tweets),
-  twitterlogo))
+print(prefix + "%d+%d+%d (💕%d) | templateImage=%s %s" % (tweetcount, retweetcount, replycount, sum(t.favorite_count for t in tweets), twitterlogo, total_color))
 
 # %% Print tweets
 print("---")
 
-print(prefix + "%d Tweets (💕%d) |   href=https://twitter.com/%s image=%s"               % (sum(1 for t in tweets if not t.retweeted and not is_reply(t)),
-                                                                                            sum(t.favorite_count for t in tweets if not t.retweeted and not is_reply(t)),
-                                                                                            screen_name,
-                                                                                            tweetlogo))
+print(prefix + "%d Tweets (💕%d) | href=https://twitter.com/%s image=%s %s" % (tweetcount, sum(t.favorite_count for t in tweets if not t.retweeted and not is_reply(t)), screen_name, tweetlogo, tweet_color))
 for t in tweets:
     if not t.retweeted and not is_reply(t):
         print("--%d💕 %s | size=12 length=60 href=https://twitter.com/%s/status/%d" % (t.favorite_count, t.text.replace('\n', ' ').replace('\r', ''), t.user.screen_name, t.id))
 
-print(prefix + "%d Retweets | href=https://twitter.com/%s image=%s"               % (sum(1 for t in tweets if t.retweeted), screen_name, retweetlogo))
+print(prefix + "%d Retweets | href=https://twitter.com/%s image=%s %s" % (retweetcount, screen_name, retweetlogo, retweet_color))
 for t in tweets:
     if t.retweeted:
         print("--%s | size=12 length=60 href=https://twitter.com/%s/status/%d" % (t.text[3:].replace('\n', ' ').replace('\r', ''), t.user.screen_name, t.id))
 
-print(prefix + "%d Replies: (💕%d) | href=https://twitter.com/%s/with_replies image=%s"  % (sum(1 for t in tweets if not t.retweeted and is_reply(t)), sum(t.favorite_count for t in tweets if not t.retweeted and is_reply(t)), screen_name, replylogo))
+print(prefix + "%d Replies: (💕%d) | href=https://twitter.com/%s/with_replies image=%s %s"  % (replycount, sum(t.favorite_count for t in tweets if not t.retweeted and is_reply(t)), screen_name, replylogo, reply_color))
 for t in tweets:
     if not t.retweeted and is_reply(t):
         print("--%d💕 %s | size=12 length=60 href=https://twitter.com/%s/status/%d" % (t.favorite_count, t.text.replace('\n', ' ').replace('\r', ''), t.user.screen_name, t.id))
