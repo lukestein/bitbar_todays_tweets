@@ -18,4 +18,4 @@ Requires python3, [tweepy](https://www.tweepy.org/), and [Twitter developer API]
 
 ## Caveats
 
-This is very much a work-in-progress toy project by a highly amateur Python programmer. Also, there is currently no error handling.
+This is very much a work-in-progress, toy project by a highly amateur Python programmer. Also, there is currently no error handling.
