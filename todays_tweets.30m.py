@@ -18,6 +18,7 @@
 import tweepy
 import datetime
 import pytz
+import time
 
 
 # %% Twitter API keys
@@ -25,6 +26,11 @@ consumer_key        = "KEY"
 consumer_secret     = "SECRET"
 access_token        = "TOKEN"
 access_token_secret = "TOKENSECRET"
+
+
+# %% Parameters
+showmentions = True
+maxmentions  = 50
 
 
 # %% Setup
@@ -40,6 +46,7 @@ retweetlogo = "iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAA
 
 replylogo = "iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAoRJREFUWAntl81qFEEUhaNRA5HgMmg2MeJGyNKFDyC4DfoWPkfIOmSRPIRugiCuhMGFIYqib5CQTXCtJlGT8zF15NI/M1WTOBOkL5yu21V17z11qrp7Zmqqs06BToH/R4ErWgq4VHY1sIl+6B6/O51KzqhdFW6Mn0K9okkx0hP205SJbmkk9UqEToWdSROLpF4nUhD7lIhNpGki9T2RMzHOGfPGtqVNpI5E4Fci9lFt1a6pI8ZVx7PuByVg7HfKwvY9EY4F1PE7bE7+A2Ep9R2qPRHYZuJ5leBfmEXCPlMoRRHjT/Ddt6e+TeGhYEPBC9niHFImAjlUBKjrfto3QiQY82qozJDe1qZULF71IVclue6EalGv2Cz3dUW+FSha3b4qkUH3nDWr+EX+HQEj/1CLCg2dXDjBZ4vFLQtfhfsChLPIad5fi0RH2co2Ba38N1W6naoVn7kYMIycDz8qAN5vbF/TE2tynzVu8/Hx/dA2h1xT8agYRKsPwk/1MccPROvDMIgx5Fg9hnLxBUtyYtmaF8KscEuYFxYEDnpcHEpiEGFBHJlHwnuBPo/LzbOYPG6rP0m7DWn4nXZPeCZsCXuClURFq9aTj8Vz3e/JvDaR80ec84JyPGXMa9oBPmErwjvBBH8k/7FarHVL+8Pt1yZyFPGvCxOiBahAsepr4an6DgQT3JaPxfz9noJrDC75oQhRSHrLOI8vBcih3KKAebx/V3iN5HqK3U/xFM+xqOCaAiD3PAXGsZxctTkmN+qfEeKtzqb8D6mC89YKlnQ4MTHRz82BwlZ5Q/7dFDhKrlrNmLw2mNFhEjc1dz7NN9mM8H87xeSocmlIecnnVd55urZToEiBMwks0+sAjBfRAAAAAElFTkSuQmCC"
 
+mentionlogo = "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"
 
 # %% Authenticate to Twitter:
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -48,7 +55,16 @@ auth.set_access_token(access_token, access_token_secret)
 
 # %% Create API object
 api = tweepy.API(auth)
-screen_name = api.me().screen_name
+
+while True:
+    try:
+        screen_name = api.me().screen_name
+        pass
+        break
+    except:
+        time.sleep(20)
+
+
 #print("User @%s successfully authorized the app." % screen_name)
 
 
@@ -65,6 +81,31 @@ for i in tweepy.Cursor(api.user_timeline).items():
 tweetcount   = sum(1 for t in tweets if not t.retweeted and not is_reply(t))
 retweetcount = sum(1 for t in tweets if     t.retweeted)
 replycount   = sum(1 for t in tweets if not t.retweeted and     is_reply(t))
+
+
+# %% Get mentions
+if showmentions:
+    mentions = []
+    mentioncount = 0
+
+    for i in tweepy.Cursor(api.mentions_timeline).items():
+        if ((i.created_at.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None).month == datetime.datetime.now().month) and
+            (i.created_at.replace(tzinfo=datetime.timezone.utc).astimezone(tz=None).day   == datetime.datetime.now().day)   and
+            mentioncount < maxmentions):
+
+            mentioncount += 1
+            mentions.append(i)
+        else:
+            break
+
+
+
+### %% Get quote-tweets
+#qtquery = "twitter.com%%2F%s%%2Fstatus%%20-(from%%3A%s)" % (screen_name, screen_name)
+#print(qtquery)
+#qts = api.search(qtquery, results_type="recent")
+#for t in qts:
+#    print(t.text)
 
 
 # %% Format menu items, including colors if above daily tweet quota
@@ -90,10 +131,18 @@ for t in tweets:
     if t.retweeted:
         print("--%s | size=12 length=60 href=https://twitter.com/%s/status/%d" % (t.text[3:].replace('\n', ' ').replace('\r', ''), t.user.screen_name, t.id))
 
-print(prefix + "%d Replies: (💕%d) | href=https://twitter.com/%s/with_replies image=%s %s"  % (replycount, sum(t.favorite_count for t in tweets if not t.retweeted and is_reply(t)), screen_name, replylogo, reply_color))
+print(prefix + "%d Replies (💕%d) | href=https://twitter.com/%s/with_replies image=%s %s"  % (replycount, sum(t.favorite_count for t in tweets if not t.retweeted and is_reply(t)), screen_name, replylogo, reply_color))
 for t in tweets:
     if not t.retweeted and is_reply(t):
         print("--%d💕 %s | size=12 length=60 href=https://twitter.com/%s/status/%d" % (t.favorite_count, t.text.replace('\n', ' ').replace('\r', ''), t.user.screen_name, t.id))
+
+mentionprefix = "≥" if (mentioncount == maxmentions) else ""
+
+if showmentions:
+    print("---")
+    print(prefix + mentionprefix + "%d Mentions | href=https://twitter.com/notifications/mentions image=%s" % (mentioncount, mentionlogo))
+    for t in mentions:
+        print("--%d💕 %s: %s | size=12 length=60 href=https://twitter.com/%s/status/%d" % (t.favorite_count, t.user.screen_name, t.text.replace('\n', ' ').replace('\r', ''), t.user.screen_name, t.id))
 
 
 print("---")
