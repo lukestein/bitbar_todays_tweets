@@ -1,7 +1,7 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
 # <bitbar.title>Today's Tweets</bitbar.title>
-# <bitbar.version>v1.1</bitbar.version>
+# <bitbar.version>v1.2</bitbar.version>
 # <bitbar.author>Luke C.D. Stein</bitbar.author>
 # <bitbar.author.github>lukestein</bitbar.author.github>
 # <bitbar.desc>Display the tweets you've posted today.</bitbar.desc>
