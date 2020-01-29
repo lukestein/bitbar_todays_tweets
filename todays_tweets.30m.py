@@ -1,7 +1,7 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
 # <bitbar.title>Today's Tweets</bitbar.title>
-# <bitbar.version>v1.2</bitbar.version>
+# <bitbar.version>v1.2.1</bitbar.version>
 # <bitbar.author>Luke C.D. Stein</bitbar.author>
 # <bitbar.author.github>lukestein</bitbar.author.github>
 # <bitbar.desc>Display the tweets you've posted today.</bitbar.desc>
@@ -146,6 +146,6 @@ if showmentions:
 
 
 print("---")
+print("Analytics | href=https://analytics.twitter.com/user/%s/tweets" % screen_name)
 print("%d Followers| href=https://twitter.com/%s/followers" % (api.me().followers_count, screen_name))
 print("%d Following | href=https://twitter.com/%s/following" % (api.me().friends_count, screen_name))
-print("Analytics | href=https://analytics.twitter.com/user/%s/tweets" % screen_name)
