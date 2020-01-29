@@ -146,6 +146,6 @@ if showmentions:
 
 
 print("---")
+print("Analytics | href=https://analytics.twitter.com/user/%s/tweets" % screen_name)
 print("%d Followers| href=https://twitter.com/%s/followers" % (api.me().followers_count, screen_name))
 print("%d Following | href=https://twitter.com/%s/following" % (api.me().friends_count, screen_name))
-print("Analytics | href=https://analytics.twitter.com/user/%s/tweets" % screen_name)
