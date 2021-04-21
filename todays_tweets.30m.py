@@ -1,16 +1,16 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
-# <bitbar.title>Today's Tweets</bitbar.title>
-# <bitbar.version>v1.2.1</bitbar.version>
-# <bitbar.author>Luke C.D. Stein</bitbar.author>
-# <bitbar.author.github>lukestein</bitbar.author.github>
-# <bitbar.desc>Display the tweets you've posted today.</bitbar.desc>
-# <bitbar.image>https://raw.githubusercontent.com/lukestein/bitbar_todays_tweets/master/todays_tweets.png</bitbar.image>
-# <bitbar.dependencies>python3,tweepy</bitbar.dependencies>
-# <bitbar.abouturl>https://github.com/lukestein/bitbar_todays_tweets</bitbar.abouturl>
+# <xbar.title>Today's Tweets</xbar.title>
+# <xbar.version>v1.2.1</xbar.version>
+# <xbar.author>Luke C.D. Stein</xbar.author>
+# <xbar.author.github>lukestein</xbar.author.github>
+# <xbar.desc>Display the tweets you've posted today.</xbar.desc>
+# <xbar.image>https://raw.githubusercontent.com/lukestein/bitbar_todays_tweets/master/todays_tweets.png</xbar.image>
+# <xbar.dependencies>python3,tweepy</xbar.dependencies>
+# <xbar.abouturl>https://github.com/lukestein/bitbar_todays_tweets</xbar.abouturl>
 
 # See advice at
-# https://github.com/matryer/bitbar#writing-plugins
+# https://github.com/matryer/xbar#writing-plugins
 # http://docs.tweepy.org/en/v3.8.0/api.html
 # https://www.iconfinder.com/
 # https://onlinepngtools.com/convert-png-to-base64
