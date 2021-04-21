@@ -1,7 +1,7 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
 # <xbar.title>Today's Tweets</xbar.title>
-# <xbar.version>v1.2.1</xbar.version>
+# <xbar.version>v1.2.2</xbar.version>
 # <xbar.author>Luke C.D. Stein</xbar.author>
 # <xbar.author.github>lukestein</xbar.author.github>
 # <xbar.desc>Display the tweets you've posted today.</xbar.desc>
@@ -17,7 +17,6 @@
 
 import tweepy
 import datetime
-import pytz
 import time
 
 
